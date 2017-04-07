@@ -1,24 +1,45 @@
 package controllers
 
 import (
-	"fmt"
+	"./db"
+	"./db/entities"
+	"github.com/bitly/go-simplejson"
+	"encoding/json"
 )
 
 type NewsController struct {
 	BaseController
-
-	Title string
-	Idx   int64
-	Desc  string
 }
 
 func (this *NewsController) GainData() {
-	this.Title = "trerst"
-	this.Idx = 11
-	this.Desc = "3213fsaf"
+	data := &entities.NewsEntity{entities.BaseEntity{11}, "laffey", "test1231232132131", "123123213fdsagfdasrewafcxzfraewrvdafdsvcdasgtrwqtsfdsarsfcsda"}
+	db.InsertNews(data)
 }
 
 func (this *NewsController) Get() {
 	this.GainData()
-	this.Ctx.WriteString(fmt.Sprintf("title : %s\nid : %d\ndesc : %s", this.Title, this.Idx, this.Desc))
+
+	jsoninfo := this.GetString("data")
+	var id int64
+	var ierr error
+	if jsoninfo == "" {
+		this.Ctx.WriteString("data is empty")
+		id = 0
+	} else {
+
+		data, err := json.Marshal(jsoninfo)
+		if err != nil {
+			return
+		}
+		jsonObj, jerr := simplejson.NewJson(data)
+		if jerr != nil {
+			return
+		}
+		this.Ctx.WriteString("\n")
+		id, ierr = jsonObj.Get("id").Int64()
+		if ierr != nil {
+			id = 0
+		}
+	}
+	this.Ctx.WriteString(db.SelectNews(id, 10))
 }

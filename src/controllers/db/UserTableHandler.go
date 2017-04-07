@@ -2,23 +2,28 @@ package db
 
 import (
 	"./entities"
-	"log"
-	"encoding/json"
+	"fmt"
 )
 
-func CreateUserTable() {
-
+type UsersTableController struct {
+	BaseTableController
 }
 
-func InsertUser(data *entities.UserEntity) {
-	sql := "insert into MyUsers(name,gender,degree) value (?,?,?)"
+func (this *UsersTableController) InsertUser(data *entities.UserEntity) bool {
+	sql := fmt.Sprintf("insert into %s(%s,%s,%s) value (?,?,?)", this.TableName, this.Indexs[1], this.Indexs[2], this.Indexs[3])
 	stmt := GetStmt(sql)
 
-	stmt.Exec(data.Name, data.Gender, data.Degree)
+	_, err := stmt.Exec(data.Name, data.Gender, data.Degree)
+
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
 }
 
-func UpdateUser(data *entities.UserEntity) {
-	sql := "update MyUsers set name=?,gender=?,degree=? where id=?"
+func (this *UsersTableController) UpdateUser(data *entities.UserEntity) {
+	sql := fmt.Sprintf("update %s set %s=?,%s=?,%s=? where %s=?", this.TableName, this.Indexs[1], this.Indexs[2], this.Indexs[3], this.Indexs[0])
 	stmt := GetStmt(sql)
 
 	stmt.Exec(data.Name, data.Gender, data.Degree, data.GetId())
@@ -27,50 +32,17 @@ func UpdateUser(data *entities.UserEntity) {
 	//}
 }
 
-func DeleteUser(data *entities.UserEntity) {
-	sql := "delete from MyUsers where id=?"
+func (this *UsersTableController) DeleteUser(data *entities.UserEntity) {
+	sql := fmt.Sprintf("delete from %s where %s=?", this.TableName, this.Indexs[0])
 	stmt := GetStmt(sql)
 	stmt.Exec(data.GetId())
 }
 
-func SelectUser(id int64) *entities.UserEntity {
-	sql := "select id,name,gender,degree from MyUsers where id=?"
+func (this *UsersTableController) SelectUser(id int64) *entities.UserEntity {
+	sql := fmt.Sprintf("select %s,%s,%s,%s from %s where %s=?", this.Indexs[0], this.Indexs[1], this.Indexs[2], this.Indexs[3], this.TableName, this.Indexs[0])
 	var user entities.UserEntity
 
 	row := db.QueryRow(sql, id)
 	row.Scan(&user.Id, &user.Name, &user.Gender, &user.Degree)
 	return &user
-}
-
-func SelectAllUser() string {
-	sql := "select id,name,gender,degree from MyUsers"
-	rows, err := db.Query(sql)
-	if err != nil {
-		panic(err)
-		log.Fatal(err)
-	}
-	//判断err是否有错误的数据，有err数据就显示panic的数据
-	defer rows.Close()
-
-	rows.ColumnTypes()
-
-	result := "{"
-	for rows.Next() {
-		var user entities.UserEntity
-		rerr := rows.Scan(&user.Id, &user.Name, &user.Gender, &user.Degree) //数据指针，会把得到的数据，往刚才id 和 lvs引入
-
-		content, _ := json.MarshalIndent(user, "", "  ")
-
-		str := string(content[:])
-		//if rows.Next() {
-		result += str + ",\n"
-		//}
-
-		if rerr != nil {
-			log.Fatal(rerr)
-			continue
-		}
-	}
-	result += "}"
-	return result
 }

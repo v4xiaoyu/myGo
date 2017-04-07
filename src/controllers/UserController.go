@@ -7,26 +7,18 @@ import (
 
 type UserController struct {
 	BaseController
-
-	Id     int64
-	Name   string
-	Gender int8
 }
 
 func (this *UserController) GainData() {
-	this.Id = 12
-	this.Name = "laffey"
-	this.Gender = 1
-
 	data := &entities.UserEntity{entities.BaseEntity{11}, "laffey", 0, 4}
 	db.InsertUser(data)
 }
 
 func (this *UserController) Get() {
-	this.GainData()
+	//this.GainData()
 	this.Ctx.WriteString("enter UserController")
 
-	user := db.SelectUser(1)
+	user := db.SelectUser(33)
 
 	//jsonString, err := json.Marshal(user)
 	//if err != nil {
@@ -36,8 +28,7 @@ func (this *UserController) Get() {
 	this.Ctx.WriteString("\n")
 	this.Ctx.Output.JSON(user, true, true)
 
-	this.Ctx.WriteString("\n")
-	this.Ctx.WriteString(db.SelectAllUser())
+	//this.Ctx.WriteString("\n")
 	//user.Name = "dan"
 	//user.Gender = 2
 	//user.Degree = 8

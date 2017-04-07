@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db.ConnectDb()
+	db.InitDb()
 
 	beego.Router("/getNews", &controllers.NewsController{})
 	beego.Router("/getUser", &controllers.UserController{})
