@@ -3,6 +3,7 @@ package db
 import (
 	"./entities"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type UsersTableController struct {
@@ -39,7 +40,8 @@ func (this *UsersTableController) DeleteUser(data *entities.UserEntity) {
 }
 
 func (this *UsersTableController) SelectUser(id int64) *entities.UserEntity {
-	sql := fmt.Sprintf("select %s,%s,%s,%s from %s where %s=?", this.Indexs[0], this.Indexs[1], this.Indexs[2], this.Indexs[3], this.TableName, this.Indexs[0])
+	//sql := fmt.Sprintf("select %s,%s,%s,%s from %s where %s=?", this.Indexs[0], this.Indexs[1], this.Indexs[2], this.Indexs[3], this.TableName, this.Indexs[0])
+	sql := fmt.Sprintf("select * from %s where %s=?", this.TableName, this.Indexs[0])
 	var user entities.UserEntity
 
 	row := db.QueryRow(sql, id)

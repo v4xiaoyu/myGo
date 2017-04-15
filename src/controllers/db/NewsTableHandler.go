@@ -5,6 +5,7 @@ import (
 	"log"
 	"encoding/json"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type NewsTableController struct {
@@ -37,7 +38,9 @@ func (this *NewsTableController) DeleteNews(data *entities.NewsEntity) {
 }
 
 func (this *NewsTableController) SelectNews(lastId int64, size int) string {
-	sql := fmt.Sprintf("select %s,%s,%s,%s from %s limit %d,%d", this.Indexs[0], this.Indexs[1], this.Indexs[2], this.Indexs[3], this.TableName, lastId, size)
+	//sql := fmt.Sprintf("select %s,%s,%s,%s from %s limit %d,%d", this.Indexs[0], this.Indexs[1], this.Indexs[2], this.Indexs[3], this.TableName, lastId, size)
+
+	sql := fmt.Sprintf("select * from %s limit %d,%d", this.TableName, lastId, size)
 	rows, err := db.Query(sql)
 	if err != nil {
 		panic(err)
