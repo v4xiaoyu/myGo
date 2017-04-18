@@ -2,6 +2,8 @@ package db
 
 import (
 	"./entities"
+	"log"
+	"encoding/json"
 )
 
 func CreateUserTable() {
@@ -40,22 +42,35 @@ func SelectUser(id int64) *entities.UserEntity {
 	return &user
 }
 
-//func SelectAllUser() {
-//	sql := "select id,name,gender,degree from MyUsers"
-//	rows, err := db.Query(sql, 10)
-//	if err != nil {
-//		panic(err)
-//		log.Fatal(err)
-//	}
-//	//判断err是否有错误的数据，有err数据就显示panic的数据
-//	defer rows.Close()
-//
-//	var users []entities.UserEntity
-//	for rows.Next() {
-//		var user entities.UserEntity
-//		rerr := rows.Scan(&user.Id, &user.Name, &user.Gender, &user.Degree)  //数据指针，会把得到的数据，往刚才id 和 lvs引入
-//		u
-//
-//	}
-//	return &users
-//}
+func SelectAllUser() string {
+	sql := "select id,name,gender,degree from MyUsers"
+	rows, err := db.Query(sql)
+	if err != nil {
+		panic(err)
+		log.Fatal(err)
+	}
+	//判断err是否有错误的数据，有err数据就显示panic的数据
+	defer rows.Close()
+
+	rows.ColumnTypes()
+
+	result := "{"
+	for rows.Next() {
+		var user entities.UserEntity
+		rerr := rows.Scan(&user.Id, &user.Name, &user.Gender, &user.Degree) //数据指针，会把得到的数据，往刚才id 和 lvs引入
+
+		content, _ := json.MarshalIndent(user, "", "  ")
+
+		str := string(content[:])
+		//if rows.Next() {
+		result += str + ",\n"
+		//}
+
+		if rerr != nil {
+			log.Fatal(rerr)
+			continue
+		}
+	}
+	result += "}"
+	return result
+}

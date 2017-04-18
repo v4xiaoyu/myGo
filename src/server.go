@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
 	"./controllers"
 	"./controllers/db"
+	"github.com/astaxie/beego"
 )
 
 func main() {
@@ -11,5 +11,5 @@ func main() {
 
 	beego.Router("/getNews", &controllers.NewsController{})
 	beego.Router("/getUser", &controllers.UserController{})
-	beego.Run(":8080")
+	beego.Run(":8081")
 }

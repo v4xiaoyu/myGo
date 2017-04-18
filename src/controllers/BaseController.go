@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"./db/entities"
+	"github.com/astaxie/beego"
 )
 
 type BaseController struct {

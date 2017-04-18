@@ -3,7 +3,6 @@ package controllers
 import (
 	"./db"
 	"./db/entities"
-	"fmt"
 )
 
 type UserController struct {
@@ -29,14 +28,16 @@ func (this *UserController) Get() {
 
 	user := db.SelectUser(1)
 
-	this.Ctx.WriteString(fmt.Sprintf("name is : %s\ngender is : %d\ndegree is: %f\n", user.Name, user.Gender, user.Degree))
-
 	//jsonString, err := json.Marshal(user)
 	//if err != nil {
 	//	log.Fatal(err.Error())
 	//}
 
+	this.Ctx.WriteString("\n")
 	this.Ctx.Output.JSON(user, true, true)
+
+	this.Ctx.WriteString("\n")
+	this.Ctx.WriteString(db.SelectAllUser())
 	//user.Name = "dan"
 	//user.Gender = 2
 	//user.Degree = 8
