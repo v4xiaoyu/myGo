@@ -2,23 +2,24 @@ package controllers
 
 import (
 	"./db"
-	"./db/entities"
+	"strconv"
 )
 
 type UserController struct {
 	BaseController
 }
 
-func (this *UserController) GainData() {
-	data := &entities.UserEntity{entities.BaseEntity{11}, "laffey", 0, 4}
-	db.InsertUser(data)
-}
-
 func (this *UserController) Get() {
+
+	s := this.Ctx.Request.URL.String()
+	v := getParams(s)
+
 	//this.GainData()
 	this.Ctx.WriteString("enter UserController")
 
-	user := db.SelectUser(33)
+	id, _ := strconv.ParseInt(v["id"][0], 10, 64)
+
+	user := db.SelectUser(id)
 
 	//jsonString, err := json.Marshal(user)
 	//if err != nil {

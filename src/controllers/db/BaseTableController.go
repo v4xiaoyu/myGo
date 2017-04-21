@@ -4,3 +4,5 @@ type BaseTableController struct {
 	TableName string
 	Indexs    []string
 }
+
+

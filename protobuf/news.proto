@@ -1,0 +1,41 @@
+package entity;
+
+enum KIND {
+    NO_IMAGE = 10000;
+    ONE_IMAGE = 10001;
+    GELLAY = 10002;
+    VIDEO = 10003;
+    LIVE = 10004;
+    LINK = 10005;
+    FULL_LINK = 10006;
+    SUBJECT = 10007;
+    EVENT = 10008;
+};
+
+enum FLAG {
+    NO_IMAGE = 10000;
+    ONE_IMAGE = 10001;
+    GELLAY = 10002;
+    VIDEO = 10003;
+    LIVE = 10004;
+    LINK = 10005;
+    FULL_LINK = 10006;
+    SUBJECT = 10007;
+    EVENT = 10008;
+};
+
+message News {
+    required int64 id = 1;
+    required string title = 2;
+    required string content = 3;
+    optional string image = 4;
+    optional string desc = 5;
+    repeated group RelativeNews = 6 {
+        required int64 id = 11;
+        required string title = 12;
+        optional string image = 13;
+        optional string desc = 14;
+    };
+    required int32 flag = 7;
+    required int32 kind = 8;
+}
