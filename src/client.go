@@ -1,20 +1,32 @@
 package main
 
 import (
-//"encoding/json"
-//"log"
-//"main/controllers/db"
-//"os"
+	"fmt"
+	"./utils"
+	"time"
 )
 
 func client() {
-	//user := db.SelectUser(3)
-	//jsonString, err := json.Marshal(user)
-	//if err != nil {
-	//	log.Fatal(err.Error())
-	//}
-	//
-	//os.Stdout.Write(jsonString)
+	c := make(chan string, 10)
+	comp := make(chan int64)
+	go utils.GetDate(c)
+	go utils.GetTime(c)
+	t := time.Now()
+	go utils.CompareTime(t, comp)
+
+	b := <-comp
+
+	if b > 0 {
+		fmt.Println("after")
+	} else if b < 0 {
+
+		fmt.Println("before")
+	} else {
+
+		fmt.Println("now")
+	}
+
+	fmt.Println(<-c, <-c)
 }
 
 func main() {
