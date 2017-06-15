@@ -1,7 +1,7 @@
 package db
 
 import (
-	"./protobuf"
+	"../protobuf"
 	"log"
 	"encoding/json"
 	"fmt"

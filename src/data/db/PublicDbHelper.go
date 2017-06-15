@@ -1,6 +1,6 @@
 package db
 
-import "./protobuf"
+import "../protobuf"
 
 var newsController *NewsTableController = &NewsTableController{BaseTableController{"NewsDetail",
 										   []string{"id", "title", "description", "content"}}}
