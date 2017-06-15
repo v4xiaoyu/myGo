@@ -3,9 +3,9 @@ package db
 import "../protobuf"
 
 var newsController *NewsTableController = &NewsTableController{BaseTableController{"NewsDetail",
-										   []string{"id", "title", "description", "content"}}}
-var userController *UsersTableController = &UsersTableController{BaseTableController{"MyUsers",
-										     []string{"id", "name", "gender", "degree"}}}
+	[]string{"news_id", "title", "description", "content", "images", "group_id"}}}
+var userController *UsersTableController = &UsersTableController{BaseTableController{"UserInfo",
+	[]string{"user_id", "name", "gender", "description", "avatar", "age"}}}
 
 func InsertNews(data *protobuf.News) bool {
 	return newsController.InsertNews(data)

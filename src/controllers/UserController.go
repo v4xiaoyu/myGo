@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"./db"
+	"../data/db"
 	"strconv"
 )
 

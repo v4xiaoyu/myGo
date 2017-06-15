@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"./db"
-	"github.com/bitly/go-simplejson"
+	"../data/db"
 	"encoding/json"
+	"github.com/bitly/go-simplejson"
 )
 
 type NewsController struct {
