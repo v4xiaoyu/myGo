@@ -19,10 +19,14 @@ func GetTime(c chan string) {
 	c <- s
 }
 
-func CompareTime(t time.Time, c chan int64) {
-	if t.UnixNano() < now.UnixNano() {
+func CompareNow(t time.Time, c chan int64) {
+	go CompareTime(t, now, c)
+}
+
+func CompareTime(t1, t2 time.Time, c chan int64) {
+	if t1.UnixNano() < t2.UnixNano() {
 		c <- -1
-	} else if t.UnixNano() > now.UnixNano() {
+	} else if t1.UnixNano() > t2.UnixNano() {
 		c <- 1
 	} else {
 		c <- 0
