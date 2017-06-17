@@ -1,7 +1,7 @@
 package db
 
 import (
-	"./protobuf"
+	"../protobuf"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 )

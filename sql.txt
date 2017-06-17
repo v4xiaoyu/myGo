@@ -1,0 +1,34 @@
+CREATE TABLE UserInfo (
+  user_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  name VARCHAR(20) NOT NULL,
+  description VARCHAR(200),
+  gender BOOL NOT NULL DEFAULT FALSE,
+  avatar TEXT,
+  age LONG
+);
+
+CREATE TABLE NewsGroup(
+  group_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+  title VARCHAR(50) NOT NULL ,
+  brief VARCHAR(100),
+  type INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE NewsDetail(
+  news_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  title VARCHAR(100) NOT NULL ,
+  breif VARCHAR(200) ,
+  content LONGTEXT,
+  images TEXT,
+  group_id INT,
+  kind INT NOT NULL DEFAULT 0,
+  CONSTRAINT NewsDetail_FK_1 FOREIGN KEY (group_id) REFERENCES NewsGroup (group_id)
+);
+
+CREATE TABLE AccountInfo(
+  account_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+  type INT NOT NULL DEFAULT 0,
+  type_name VARCHAR(10),
+  user_id INT,
+  CONSTRAINT AccountInfo_FK_1 FOREIGN KEY (user_id) REFERENCES UserInfo (user_id)
+);

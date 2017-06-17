@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./controllers"
-	"./controllers/db"
+	"../controllers"
+	"../data/db"
 	"github.com/astaxie/beego"
-	"./utils"
+	"../utils"
 	"fmt"
 )
 
