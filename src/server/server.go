@@ -30,7 +30,9 @@ func main() {
 	log.Println(quickDb.Get(key))
 	quickDb.Delete(key)
 	log.Println(quickDb.Get(key))
+}
 
+func stop() {
 	db.CloseDb()
 	quickDb.Quit()
 }
