@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"../utils"
+	"fmt"
 	"time"
 )
 
@@ -40,10 +40,8 @@ func client() {
 	} else {
 		fmt.Println("t is t2")
 	}
-
 }
 
 func main() {
-	//db.ConnectDb()
 	client()
 }

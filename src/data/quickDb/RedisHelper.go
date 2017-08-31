@@ -1,17 +1,18 @@
 package quickDb
 
 import (
-	"log"
 	"github.com/gosexy/redis"
+	"log"
 )
 
-func init() {
-	var client *redis.Client
+var client *redis.Client
+
+func Init() {
 	var err error
 
 	client = redis.New()
 
-	err = client.Connect("localhost", "8082")
+	err = client.Connect("localhost", 6379)
 
 	if err != nil {
 		log.Fatalf("Connect failed: %s\n", err.Error())
@@ -19,29 +20,32 @@ func init() {
 	}
 
 	log.Println("Connected to redis-server.")
+}
 
-	// DEL hello
-	log.Printf("DEL hello\n")
-	client.Del("hello")
-
-	// SET hello 1
-	log.Printf("SET hello 1\n")
-	client.Set("hello", 1)
-
-	// INCR hello
-	log.Printf("INCR hello\n")
-	client.Incr("hello")
-
-	// GET hello
-	log.Printf("GET hello\n")
-	s, err := client.Get("hello")
-
+func Get(key string) string {
+	s, err := client.Get(key)
 	if err != nil {
-		log.Fatalf("Could not GET: %s\n", err.Error())
-		return
+		return err.Error()
 	}
+	return s
+}
 
-	log.Printf("> hello = %s\n", s)
+func Delete(key string) {
+	client.Del(key)
+}
 
+func Set(key string, v interface{}) {
+	client.Set(key, v)
+}
+
+func Quit() {
 	client.Quit()
+}
+
+func Increase(key string) {
+	client.Incr(key)
+}
+
+func Decrease(key string) {
+	client.Decr(key)
 }
