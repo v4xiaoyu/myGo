@@ -6,8 +6,8 @@ import (
 	"../data/quickDb"
 	"../utils"
 	"fmt"
-	"github.com/astaxie/beego"
-	"log"
+	//"github.com/astaxie/beego"
+	//"log"
 )
 
 func main() {
@@ -20,16 +20,19 @@ func main() {
 	s := <-c
 	fmt.Println(s)
 
-	beego.Router("/getNews", &controllers.NewsController{})
-	beego.Router("/getUser", &controllers.UserController{})
-	beego.Run(":8081")
+	controllers.StartSocket()
+	//http+mysql
+	//beego.Router("/getNews", &controllers.NewsController{})
+	//beego.Router("/getUser", &controllers.UserController{})
+	//beego.Run(":8081")
 
-	key := "hello"
-	log.Println(quickDb.Get(key))
-	quickDb.Set(key, "welcome")
-	log.Println(quickDb.Get(key))
-	quickDb.Delete(key)
-	log.Println(quickDb.Get(key))
+	//redis
+	//key := "hello"
+	//log.Println(quickDb.Get(key))
+	//quickDb.Set(key, "welcome")
+	//log.Println(quickDb.Get(key))
+	//quickDb.Delete(key)
+	//log.Println(quickDb.Get(key))
 }
 
 func stop() {
