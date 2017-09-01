@@ -11,21 +11,15 @@ import (
 )
 
 func main() {
-	db.InitDb()
-
-	quickDb.Init()
-
 	c := make(chan string, 10)
 	utils.GetDate(c)
 	s := <-c
 	fmt.Println(s)
 
-	controllers.StartSocket()
-	//http+mysql
-	//beego.Router("/getNews", &controllers.NewsController{})
-	//beego.Router("/getUser", &controllers.UserController{})
-	//beego.Run(":8081")
-
+	go db.InitDb()
+	go quickDb.Init()
+	go controllers.StartSocket()
+	go controllers.StartHttpListener()
 	//redis
 	//key := "hello"
 	//log.Println(quickDb.Get(key))
