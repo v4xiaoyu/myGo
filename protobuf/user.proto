@@ -1,15 +1,6 @@
 package entity;
-
-enum PLATFROM {
-    PHONE = 10000;
-    QQ = 10001;
-    WEIXIN = 10002;
-    WEIBO = 10003;
-    FACEBOOK = 10004;
-    INS = 10005;
-    TWITTER = 10006;
-};
-
+//user info
+import "configs.proto";
 message User {
     required int64 id = 1;
     required string name = 2;
@@ -17,4 +8,5 @@ message User {
     optional string desc = 4;
     optional float degree = 5;
     repeated int32 flags = 6;
+    required PLATFORM platform = 7;
 }

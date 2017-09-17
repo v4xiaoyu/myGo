@@ -1,14 +1,12 @@
 package entity;
-
-//news data
+import "news.proto";
 import "configs.proto";
-
-message News {
+//集合数据结构
+message NewsGroup {
     required int64 id = 1;
     required string title = 2;
     required string content = 3;
     optional string image = 4;
-    optional string desc = 5;
-    required FLAG flag = 6;
-    required KIND kind = 7;
+    repeated News news_list = 5;
+    required KIND kind = 6;
 }

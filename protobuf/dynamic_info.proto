@@ -1,0 +1,14 @@
+//动态数据
+package entity;
+
+import "news_group.proto";
+import "news.proto";
+
+message DynamicInfo {
+    required bool thumb = 1;
+    required bool collected = 2;
+    required int64 thumb_num = 3;
+    required int64 collection_num = 4;
+    optional NewsGroup group_info = 5;
+    repeated News related_news = 6;
+}
