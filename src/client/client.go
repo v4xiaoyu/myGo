@@ -156,7 +156,7 @@ func testTF() {
 
 func main() {
 	//client()
-	//learn()
+	learn()
 
-	testTF()
+	//testTF()
 }
