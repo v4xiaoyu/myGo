@@ -10,7 +10,7 @@ type UsersTableController struct {
 	BaseTableController
 }
 
-func (this *UsersTableController) InsertUser(data *protobuf.User) bool {
+func (this *UsersTableController) InsertUser(data *entity.User) bool {
 	sql := fmt.Sprintf("insert into %s(%s,%s,%s) value (?,?,?)", this.TableName, this.Indexs[1], this.Indexs[2], this.Indexs[3])
 	stmt := GetStmt(sql)
 
@@ -23,7 +23,7 @@ func (this *UsersTableController) InsertUser(data *protobuf.User) bool {
 	}
 }
 
-func (this *UsersTableController) UpdateUser(data *protobuf.User) {
+func (this *UsersTableController) UpdateUser(data *entity.User) {
 	sql := fmt.Sprintf("update %s set %s=?,%s=?,%s=? where %s=?", this.TableName, this.Indexs[1], this.Indexs[2], this.Indexs[3], this.Indexs[0])
 	stmt := GetStmt(sql)
 
@@ -33,16 +33,16 @@ func (this *UsersTableController) UpdateUser(data *protobuf.User) {
 	//}
 }
 
-func (this *UsersTableController) DeleteUser(data *protobuf.User) {
+func (this *UsersTableController) DeleteUser(data *entity.User) {
 	sql := fmt.Sprintf("delete from %s where %s=?", this.TableName, this.Indexs[0])
 	stmt := GetStmt(sql)
 	stmt.Exec(data.GetId())
 }
 
-func (this *UsersTableController) SelectUser(id int64) *protobuf.User {
+func (this *UsersTableController) SelectUser(id int64) *entity.User {
 	//sql := fmt.Sprintf("select %s,%s,%s,%s from %s where %s=?", this.Indexs[0], this.Indexs[1], this.Indexs[2], this.Indexs[3], this.TableName, this.Indexs[0])
 	sql := fmt.Sprintf("select * from %s where %s=?", this.TableName, this.Indexs[0])
-	var user protobuf.User
+	var user entity.User
 
 	row := db.QueryRow(sql, id)
 	row.Scan(&user.Id, &user.Name, &user.Gender, &user.Degree)

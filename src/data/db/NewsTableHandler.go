@@ -2,17 +2,17 @@ package db
 
 import (
 	"../protobuf"
-	"log"
 	"encoding/json"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"log"
 )
 
 type NewsTableController struct {
 	BaseTableController
 }
 
-func (this *NewsTableController) InsertNews(data *protobuf.News) bool {
+func (this *NewsTableController) InsertNews(data *entity.News) bool {
 	sql := fmt.Sprintf("insert into %s(%s,%s, %s) value (?,?,?)", this.TableName, this.Indexs[1], this.Indexs[2], this.Indexs[3])
 
 	_, err := insert(sql, data.Title, data.Desc, data.Content)
@@ -23,12 +23,12 @@ func (this *NewsTableController) InsertNews(data *protobuf.News) bool {
 	}
 }
 
-func (this *NewsTableController) UpdateNews(data *protobuf.News) {
+func (this *NewsTableController) UpdateNews(data *entity.News) {
 	sql := fmt.Sprintf("update %s set %s=?,%s=?,%s=? where %s=?", this.TableName, this.Indexs[1], this.Indexs[2], this.Indexs[3], this.Indexs[0])
 	exec(sql, data.Title, data.Desc, data.GetId())
 }
 
-func (this *NewsTableController) DeleteNews(data *protobuf.News) {
+func (this *NewsTableController) DeleteNews(data *entity.News) {
 	sql := fmt.Sprintf("delete from %s where %s=?", this.TableName, this.Indexs[0])
 	exec(sql, data.GetId())
 }
@@ -49,7 +49,7 @@ func (this *NewsTableController) SelectNews(lastId int64, size int) string {
 	result := "{"
 	var count int = 0
 	for rows.Next() {
-		var news protobuf.News
+		var news entity.News
 		rerr := rows.Scan(&news.Id, &news.Title, &news.Desc, &news.Content) //数据指针，会把得到的数据，往刚才id 和 lvs引入
 
 		content, _ := json.MarshalIndent(news, "", "  ")

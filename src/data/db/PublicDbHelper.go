@@ -7,7 +7,7 @@ var newsController *NewsTableController = &NewsTableController{BaseTableControll
 var userController *UsersTableController = &UsersTableController{BaseTableController{"UserInfo",
 	[]string{"user_id", "name", "gender", "description", "avatar", "age"}}}
 
-func InsertNews(data *protobuf.News) bool {
+func InsertNews(data *entity.News) bool {
 	return newsController.InsertNews(data)
 }
 
@@ -16,10 +16,10 @@ func SelectNews(lastId int64, size int) string {
 }
 
 //////////////////////////////////////------------------
-func InsertUser(data *protobuf.User) bool {
+func InsertUser(data *entity.User) bool {
 	return userController.InsertUser(data)
 }
 
-func SelectUser(id int64) *protobuf.User {
+func SelectUser(id int64) *entity.User {
 	return userController.SelectUser(id)
 }
