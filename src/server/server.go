@@ -18,8 +18,9 @@ func main() {
 
 	go db.InitDb()
 	go quickDb.Init()
-	go controllers.StartSocket()
 	go controllers.StartHttpListener()
+
+	controllers.StartSocket()
 	//redis
 	//key := "hello"
 	//log.Println(quickDb.Get(key))

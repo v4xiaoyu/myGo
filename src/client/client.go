@@ -2,10 +2,12 @@ package main
 
 import (
 	"../utils"
+	"bufio"
 	"fmt"
 	"github.com/sjwhitworth/golearn/base"
 	"github.com/sjwhitworth/golearn/evaluation"
 	"github.com/sjwhitworth/golearn/knn"
+	"net"
 	"time"
 )
 
@@ -81,4 +83,15 @@ func learn() {
 func main() {
 	client()
 	learn()
+
+	conn, err := net.Dial("tcp", ":18888")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(conn, "hello server\n")
+	data, err := bufio.NewReader(conn).ReadString('\n')
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%#v\n", data)
 }

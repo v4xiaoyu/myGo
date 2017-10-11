@@ -8,7 +8,7 @@ import (
 )
 
 func StartSocket() {
-	l, err := net.Listen("tcp", ":18888")
+	l, err := net.Listen("tcp", ":18188")
 	if err != nil {
 		fmt.Println("listen error:", err)
 		return
