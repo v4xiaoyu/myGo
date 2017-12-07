@@ -8,43 +8,45 @@ import (
 	"github.com/sjwhitworth/golearn/evaluation"
 	"github.com/sjwhitworth/golearn/knn"
 	"net"
-	"time"
+	//"time"
+	"bytes"
+	"github.com/bitly/go-simplejson"
 )
 
 func client() {
 	c := make(chan string, 10)
-	comp := make(chan int64)
+	//comp := make(chan int64)
 	go utils.GetDate(c)
 	go utils.GetTime(c)
 
 	fmt.Println(<-c, <-c)
 
-	t := time.Now()
-	go utils.CompareNow(t, comp)
-
-	b := <-comp
-
-	if b > 0 {
-		fmt.Println("after")
-	} else if b < 0 {
-		fmt.Println("before")
-	} else {
-		fmt.Println("now")
-	}
-
-	time.Sleep(3000)
-	t2 := time.Now()
-	go utils.CompareTime(t, t2, comp)
-
-	a := <-comp
-
-	if a > 0 {
-		fmt.Println("t after t2")
-	} else if a < 0 {
-		fmt.Println("t before t2")
-	} else {
-		fmt.Println("t is t2")
-	}
+	//t := time.Now()
+	//go utils.CompareNow(t, comp)
+	//
+	//b := <-comp
+	//
+	//if b > 0 {
+	//	fmt.Println("after")
+	//} else if b < 0 {
+	//	fmt.Println("before")
+	//} else {
+	//	fmt.Println("now")
+	//}
+	//
+	//time.Sleep(3000)
+	//t2 := time.Now()
+	//go utils.CompareTime(t, t2, comp)
+	//
+	//a := <-comp
+	//
+	//if a > 0 {
+	//	fmt.Println("t after t2")
+	//} else if a < 0 {
+	//	fmt.Println("t before t2")
+	//} else {
+	//	fmt.Println("t is t2")
+	//}
 }
 
 func learn() {
@@ -82,16 +84,28 @@ func learn() {
 
 func main() {
 	client()
-	learn()
+	//learn()
 
-	conn, err := net.Dial("tcp", ":18888")
+	conn, err := net.Dial("tcp", ":18188")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(conn, "hello server\n")
-	data, err := bufio.NewReader(conn).ReadString('\n')
+	//fmt.Fprintf(conn, "hello server\n")
+	str := "hello server"
+	_, err_w := conn.Write(bytes.NewBufferString(str).Bytes())
+	if err_w != nil {
+		panic(err)
+	}
+
+	result := make([]byte, 1024)
+	_, err_r := bufio.NewReader(conn).Read(result)
+	if err_r != nil {
+		panic(err)
+	}
+
+	j, err := simplejson.NewJson(result)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%#v\n", data)
+	fmt.Println(j.Get("data").String())
 }

@@ -7,18 +7,21 @@ import (
 	"net"
 )
 
-func StartSocket() {
-	l, err := net.Listen("tcp", ":18188")
+type SocketStatus struct {
+	Id      int
+	Running bool
+}
+
+func StartSocket(running chan SocketStatus, protocol string, port string) {
+	l, err := net.Listen(protocol, port)
 	if err != nil {
-		fmt.Println("listen error:", err)
-		return
+		panic(err)
 	}
 
 	for {
 		c, err := l.Accept()
 		if err != nil {
-			fmt.Println("accept error:", err)
-			break
+			panic(err)
 		}
 		// start a new goroutine to handle
 		// the new connection.
@@ -35,22 +38,20 @@ func handleConn(conn net.Conn, b []byte) {
 	j.Set("message", "ok")
 	j.Set("data", s)
 
-	result, err := j.String()
+	result, err := j.Encode()
 	if err != nil {
-		fmt.Println("json handle error:", err)
-		return
+		panic(err)
 	}
-	go writeToConn(conn, result)
+	go writeToConn(conn, bytes.NewBuffer(result).String())
 }
 
 func readFromConn(conn net.Conn) {
-	var b []byte
+	b := make([]byte, 32)
 	_, err := conn.Read(b)
 	if err != nil {
-		fmt.Println("Read error:", err)
+		panic(err)
 	}
-	ch := make(chan interface{})
-	ch <- b
+
 	go handleConn(conn, b)
 }
 

@@ -15,7 +15,6 @@ func Init() {
 	err = client.Connect("localhost", 6379)
 
 	if err != nil {
-		log.Fatalf("Connect failed: %s\n", err.Error())
 		return
 	}
 

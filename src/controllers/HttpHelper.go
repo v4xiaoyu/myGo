@@ -4,7 +4,12 @@ import (
 	"github.com/astaxie/beego"
 )
 
-func StartHttpListener() {
+type HttpStatus struct {
+	Id      int
+	Running bool
+}
+
+func StartHttpListener(statuses chan HttpStatus) {
 	//http+mysql
 	beego.Router("/getNews", &NewsController{})
 	beego.Router("/getUser", &UserController{})

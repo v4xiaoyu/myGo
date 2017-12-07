@@ -9,7 +9,7 @@ import (
 var db *sql.DB
 var err error
 
-func ConnectDb() {
+func connectDb() {
 	db, err = sql.Open("mysql", "root:942698.Liu@/mytestdb")
 	//数据库连接字符串，别告诉我看不懂。端口一定要写/
 	if err != nil {
@@ -35,7 +35,7 @@ func GetStmt(sqlStr string) *sql.Stmt {
 }
 
 func InitDb() {
-	ConnectDb()
+	connectDb()
 }
 
 //插入

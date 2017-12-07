@@ -18,9 +18,10 @@ func main() {
 
 	go db.InitDb()
 	go quickDb.Init()
-	go controllers.StartHttpListener()
-
-	controllers.StartSocket()
+	flag_http := make(chan controllers.HttpStatus, 2)
+	go controllers.StartHttpListener(flag_http)
+	flag_socket := make(chan controllers.SocketStatus)
+	controllers.StartSocket(flag_socket, "tcp", ":18188")
 	//redis
 	//key := "hello"
 	//log.Println(quickDb.Get(key))
@@ -28,6 +29,13 @@ func main() {
 	//log.Println(quickDb.Get(key))
 	//quickDb.Delete(key)
 	//log.Println(quickDb.Get(key))
+
+	//for true {
+	//result :=<-flag_socket
+	//if !result.Running {
+	//	break
+	//}
+	//}
 }
 
 func stop() {
