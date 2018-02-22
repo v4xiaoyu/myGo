@@ -1,4 +1,4 @@
-package blockchain
+package main
 
 import (
 	"fmt"
@@ -27,5 +27,4 @@ func main() {
 	} else {
 		fmt.Println("SampleChaincode successfully started")
 	}
-
 }
