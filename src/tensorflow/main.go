@@ -3,7 +3,7 @@ package main
 import (
 	_ "fmt"
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
-	op "github.com/tensorflow/tensorflow/tensorflow/go/op"
+	"github.com/tensorflow/tensorflow/tensorflow/go/op"
 )
 
 func main() {
